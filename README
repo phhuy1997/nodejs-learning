@@ -1,14 +1,7 @@
-1. Create package.json:
-   npm init
-   Then fill the information
-   --> package.json will be automatically created
+1. What is Babel?
+   It is a Compiler to convert newest codes from JS (ES7) to origin JS (ES1)
+   so that computer can understand, code can be run on many application without dependening on which version
 
-2. Express Framework:
-   npm install express@4.18.2
-   --> node_modules/... will be automatically created and includes express & related of express
-   --> package-lock.json will be automatically created: It declares all detail package that was installed
-   (more details than package.json)
+--> No need to use Babel because it take double memory to contain the converted code.
 
-How to run:
-C1: node server.js (default)
-C2: npm run start (according to scripts)
+--> Recommend: We will update and use newest version of NodeJs (ex: 14.17.0)
