@@ -15,11 +15,17 @@
    Call the .ejs file from server.js
 
 4. Set up ENV: (to dynamic port for each different enviroment that code will be run on)
-   # instal dotenv package to help us so that we can read the variables in the .env file through the process.env.<VARIALBLE>
+   # instal dotenv package so that we can read the variables in the .env file through the process.env.<VARIALBLE>
    npm install --save-exact dotenv@16.0.3
-
    Create .env file
 	 In server.js, we can envoke the VARIABLE from .env file
+
+5. Nodemon DevTool:
+	 # install Nodemon so that when there is any updated code (.js, .mjs), the server can be automatically reset without manually "npm run start" again
+	 npm install --save-dev nodemon@2.0.20    (--save-dev means that package will only be used in devDependencies --> no need to be use this package when deploy to production)
+   In package.json, change script to "nodemon ./src/server.js"
+
+
 
 How to run:
 C1: node server.js (default)
