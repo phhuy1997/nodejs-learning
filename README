@@ -9,6 +9,11 @@
    --> package-lock.json will be automatically created: It declares all detail package that was installed
    (more details than package.json)
 
+3. View Render: (popular: EJS)
+   npm install --save-exact ejs@3.1.8
+   Then create folder /src/views/... to contain all file view .ejs
+   Call the .ejs file from server.js
+
 How to run:
 C1: node server.js (default)
 C2: npm run start (according to scripts)

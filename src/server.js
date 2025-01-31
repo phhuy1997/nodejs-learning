@@ -1,5 +1,6 @@
 const express = require('express'); // this is commonJs import method
 // import express from 'express'; // this is ES module import method
+const path = require('path');
 
 const app = express(); // create an Express App
 const PORT = 3000;
@@ -15,6 +16,17 @@ app.get('/abc', (req, res) => {
 app.get('/htmlRender', (req, res) => {
   res.send('<h1>Hello, ABC!<h1>'); // send response to client
 });
+
+
+
+// config template engine (view engine)
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
+app.get('/viewRender', (req, res) => {
+  res.render('sample.ejs'); //reponse the html file sample.ejs to client
+});
+
 
 
 // App can run on that port 3000 above
