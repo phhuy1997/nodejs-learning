@@ -1,0 +1,14 @@
+1. Create package.json:
+   npm init
+   Then fill the information
+   --> package.json will be automatically created
+
+2. Express Framework:
+   npm install express@4.18.2
+   --> node_modules/... will be automatically created and includes express & related of express
+   --> package-lock.json will be automatically created: It declares all detail package that was installed
+   (more details than package.json)
+
+How to run:
+C1: node server.js (default)
+C2: npm run start (according to scripts)
