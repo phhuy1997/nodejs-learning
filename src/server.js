@@ -1,9 +1,15 @@
+require('dotenv').config()
 const express = require('express'); // this is commonJs import method
 // import express from 'express'; // this is ES module import method
 const path = require('path');
 
+
+
 const app = express(); // create an Express App
-const PORT = 3000;
+const PORT = process.env.PORT; // read PORT from .env
+const hostname=process.env.HOST_NAME; // read HOST_NAME from .env
+
+
 
 
 // declare router for Express App
@@ -29,7 +35,7 @@ app.get('/viewRender', (req, res) => {
 
 
 
-// App can run on that port 3000 above
-app.listen(PORT, () => {
+// App can run on that port 3000 of hostname declare above
+app.listen(PORT, hostname, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
