@@ -4,6 +4,7 @@ const express = require('express'); // this is commonJs import method
 
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web');
+const apiRoutes = require('./routes/api');
 
 
 
@@ -16,6 +17,7 @@ const hostname=process.env.HOST_NAME; // read HOST_NAME from .env
 
 // declare router for Express App
 app.use('/', webRoutes); // '/' is prefix of the route
+app.use('/api/v1/', apiRoutes); // '/' is prefix of the API endpoint
 
 
 

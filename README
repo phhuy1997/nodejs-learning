@@ -79,6 +79,9 @@
 	In /routes/web.js, we create an endpoint: POST '/create-user'
 	In Controller, create 'postCreateUser", we can get request body from client by using "req.body"
 
+12. API -  Restful API
+	Same as web routes
+
 
 
 How to run:
