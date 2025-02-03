@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express'); // this is commonJs import method
 // import express from 'express'; // this is ES module import method
 const path = require('path');
-
+const mysql=require('mysql2');
 
 
 const app = express(); // create an Express App
@@ -38,6 +38,21 @@ app.get('/viewRender', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public'))) //declare so that express will know that we storage static files in /public folder
 
 
+// Create connection to DB
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASWORD,
+  database: process.env.DB_NAME,
+});
+
+connection.query(
+  'SELECT * FROM Users',
+  function (err, results, fields) {
+    console.log('results :>> ', results);
+  }
+)
 
 // App can run on that port 3000 of hostname declare above
 app.listen(PORT, hostname, () => {

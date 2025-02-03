@@ -33,6 +33,21 @@
 	 In /views/sample.ejs, we add <img src="/images/flezzexample.png" alt=""> 
 	 # --> Client can see image rendered in HTML because it was fetched from http://localhost:3000/images/flezzexample.png
 
+7. Run Docker to use Database:
+	 Download docker file: https://drive.google.com/file/d/1DfSjZTM8RYXbKCde5gRg_HYl3YJWNtGa/view
+	 Save into our source: mysql.yml
+	 Run: docker compose -f mysql.yml -p nodejs-sql up -d
+	 Open Dbeaver, connection to DB: Port 3307, username: root, password: 132456.
+	               then CREATE TABLE User (id, name, email, city)			
+								 then INSERT INTO User (1, 'eric@gmail.com', 'hoidanit', 'hanoi')					 
+
+8. Connection to DB:
+	 npm install --save-exact mysql2@2.3.3
+	 # We will use mysql2 with more new update feature
+	 In Server.js, we can Create connection = mysql.createConnection({...}) 
+	               then we can query to get data from DB
+
+
 
 
 
