@@ -63,6 +63,13 @@
 	 c. Folder /controller:
       Handle controller, res.response, ... to /controller/homeController.js
 
+10. Connection Pool:
+	 # Help avoid open connection on every query. With this method, we can reuse the previous connection to query the data
+	 # This will also help us in auto close the previous connection when we open a new connection to fetch the latest data
+	 In database.js (file config database connection), we change "createConnection" to "createPool" 
+	 																									then add some additional attributes: waitForConnections, connectionLimit, queueLimit
+
+
 
 How to run:
 C1: node server.js (default)
