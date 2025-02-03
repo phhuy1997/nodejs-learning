@@ -70,6 +70,16 @@
 	 																									then add some additional attributes: waitForConnections, connectionLimit, queueLimit
 
 
+11. POST, GET, Request.Body, Request.Params
+	GET:
+	In /routes/web.js, we change "/abc" to "/:abc"
+	In Controller 'GetABC" we can get that param by using "req.params.abc"
+
+	POST:
+	In /routes/web.js, we create an endpoint: POST '/create-user'
+	In Controller, create 'postCreateUser", we can get request body from client by using "req.body"
+
+
 
 How to run:
 C1: node server.js (default)
