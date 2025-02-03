@@ -48,7 +48,20 @@
 	               then we can query to get data from DB
 
 
+9. MVC Structure:
+	 # Routes: Define Routes (/endpoint) and link to Controller to coordinate tasks (respective to each route)
+   # Controller: to Coordinate the tasks on each request endpoint to respective Model, get result from Model and response to Client
+	 # Model: to handle Logic, calculation, query database and pass request data to View for rendering (if SSR), return result to Controller
+	 # View (if SSR): to render data gotten from Model request it to do.
+	 a. Folder /config:
+	 		In Server.js, Move section 'config template (view) engine' to /config/viewEngine.js
+										Move section 'config static file' to /config/viewEngine.js also
+										Move section 'Create connection to DB'   to  /config/database.js
 
+	 b. Folder /routes:
+	 		In Server.js, Move section declare router  to  /routes/web.js
+	 c. Folder /controller:
+      Handle controller, res.response, ... to /controller/homeController.js
 
 
 How to run:
