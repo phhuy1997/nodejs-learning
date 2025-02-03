@@ -25,6 +25,15 @@
 	 npm install --save-dev nodemon@2.0.20    (--save-dev means that package will only be used in devDependencies --> no need to be use this package when deploy to production)
    In package.json, change script to "nodemon ./src/server.js"
 
+6. Static File:
+   Create folder /public. --> Inside it, create folder /css, /js, /images
+	 # Those folders will contain file that will be run on client.(ex:js will be used in <Scriptt> of the DOM in /views)
+   Now, In server.js, We can use this code: app.use(express.static(path.join(__dirname, 'public')))
+	 # Example When Client access url: http://localhost:3000/images/flezzexample.png, Client can read image in /images folder
+	 In /views/sample.ejs, we add <img src="/images/flezzexample.png" alt=""> 
+	 # --> Client can see image rendered in HTML because it was fetched from http://localhost:3000/images/flezzexample.png
+
+
 
 
 How to run:

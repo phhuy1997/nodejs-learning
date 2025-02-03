@@ -34,6 +34,10 @@ app.get('/viewRender', (req, res) => {
 });
 
 
+// config static files
+app.use(express.static(path.join(__dirname, 'public'))) //declare so that express will know that we storage static files in /public folder
+
+
 
 // App can run on that port 3000 of hostname declare above
 app.listen(PORT, hostname, () => {
