@@ -80,7 +80,11 @@
 	In Controller, create 'postCreateUser", we can get request body from client by using "req.body"
 
 12. API -  Restful API
-	Same as web routes
+	Build API Routes Same as web routes
+
+13. Middleware:
+	# Middleware is like a firewall, used to block, redirect, authenticate, ... every request from client
+	
 
 
 
