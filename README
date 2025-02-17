@@ -1,14 +1,16 @@
-1. Create package.json:
-   npm init
-   Then fill the information
-   --> package.json will be automatically created
+1. NestJs Framework:
+   Remove everything in this folder (because they are for the Express).
 
-2. Express Framework:
-   npm install express@4.18.2
-   --> node_modules/... will be automatically created and includes express & related of express
-   --> package-lock.json will be automatically created: It declares all detail package that was installed
-   (more details than package.json)
+   $ npm install -g @nestjs/cli
+   --> nest-cli will help us create a set of NestJs Project. (type "nest" for check).
+   $ nest new .
+   --> It will create a Nest Project in this folder
+   --> Package.json, package-lock.json will automatically re-created (suitable for NestJs),
+   --> Our server now will be run in /src/main.ts
+
+
+
 
 How to run:
-C1: node server.js (default)
-C2: npm run start (according to scripts)
+C1: nest start (default)
+C2: npm run build (according to scripts)
