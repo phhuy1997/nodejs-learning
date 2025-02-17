@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   Body,
   Controller,
@@ -31,7 +33,14 @@ export class UsersController {
   @UsePipes(new ValidationPipe())
   @Post()
   createUser(@Body() user: UserDTO) {
-    console.log('user: ', user);
+    console.log('user: ', user); // raw input
+    // C1: Controller transformer
+    // const userReal = plainToClass(this, obj, { excludeExtraneousValues: true });  --> remove the fields that not be exposed in UserDTO
+
+    // C2: Global Transformer
+    const userReal = UserDTO.exposedInput(user);
+
+    console.log('userReal :>> ', userReal); // only accepted input
     return {
       data: user,
       status: 200,

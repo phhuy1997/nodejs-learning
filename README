@@ -35,7 +35,20 @@
    In UserDTO, we can add  @IsNotEmpty, @Length, @IsPositive, @Max, @IsAlphanumeric, @IsAlphanumeric,... (https://github.com/typestack/class-validator)
    so that the input from Client always be validated automatically
 
-   
+
+4. Pipe 2: Transformer: 
+   # Used to transform to expected input, remove unexpected input
+   $ npm install class-transformer 
+   a. Controller Transformer: 
+      In UserController, we can use plainToClass(UserDTO, user, {excludeExtraneousValues: true}) to only get the only accepted field from input
+      --> If validate fail, auto response error message to Client.
+      In UserDTO, we can add  @Expose()
+      so that the input from Client always be checked and filter only the accepted fields
+   b. Global Transformer:
+      We make UserDTO extends from BaseDTO (parent)
+      In BaseDTO, we define a static method: exposedInput to return a result of plainToClass(...).
+      --> In UserController, we don't need to plainToClass(...) anymore.
+
 
 
 
