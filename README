@@ -23,6 +23,19 @@
       + Method @GET: GetAllUsers()
       + Method @POST: CreateUser()
 
+4. Pipe 1: Validation:
+   $ npm install class-validator
+   a. Controller Validation: 
+      @UsePipes in Controller (UserController) for auto validation and response to Client
+      --> If validate fail, auto response error message to Client.
+   b. Global Validation: (larger scope)
+      In main.ts we can use: app.useGlobalPipes(new ValidationPipe())
+      --> In UserController, we dont need to @UsePipes anymore
+
+   In UserDTO, we can add  @IsNotEmpty, @Length, @IsPositive, @Max, @IsAlphanumeric, @IsAlphanumeric,... (https://github.com/typestack/class-validator)
+   so that the input from Client always be validated automatically
+
+   
 
 
 

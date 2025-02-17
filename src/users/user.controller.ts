@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UserDTO } from 'src/user.dto';
 
 //Decorator @Controller is used to wrap within this module so that Nest will know this is a Controller
@@ -19,7 +27,8 @@ export class UsersController {
     ];
   }
 
-  // Method POST
+  // Method POST, @UsePipes for auto validation and response to Client if any fail
+  @UsePipes(new ValidationPipe())
   @Post()
   createUser(@Body() user: UserDTO) {
     console.log('user: ', user);
