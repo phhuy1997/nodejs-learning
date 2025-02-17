@@ -8,6 +8,21 @@
    --> Package.json, package-lock.json will automatically re-created (suitable for NestJs),
    --> Our server now will be run in /src/main.ts
 
+2. Modules:
+   On real project, each scope of an application will have many sections/features/...
+   --> We can create many Modules according to that scope seperation.
+   For Example: 1 parent Module: (AppModule: /app.module.ts)
+                some childModules (UserModule: /user.module.ts) as child Module and imported into parent Module
+   Import Parent Modules into main.ts
+   
+3. Controller:
+   Create UserController: /src/users/user.controller.ts
+   For using: Import UserController into /user.module.ts
+   API in UserController:
+      + Declare Router:  @Controller('users') 
+      + Method @GET: GetAllUsers()
+      + Method @POST: CreateUser()
+
 
 
 
