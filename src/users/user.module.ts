@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './user.controller';
 import { UserService, UserServiceA, UserServiceB } from './user.service';
+import { StoreConfig } from 'src/store/store.config';
 
 //Decorator @Module is used to wrap within this module so that we can have an instance of this App Module
 @Module({
@@ -16,6 +17,13 @@ import { UserService, UserServiceA, UserServiceB } from './user.service';
     {
       provide: 'KEY_B', //key
       useClass: UserServiceB,
+    },
+    {
+      provide: 'CONSTANT_CONFIG', //key
+      useValue: {
+        dir: 'NestJs',
+        path: '/myPC/Huy/NodeJs/',
+      } as StoreConfig,
     },
   ],
 })

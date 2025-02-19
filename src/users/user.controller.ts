@@ -15,15 +15,18 @@ import { UserDTO } from 'src/user.dto';
 import { UserService, UserServiceA, UserServiceB } from './user.service';
 import { ModuleRef } from '@nestjs/core';
 import { UserRepository } from './user.repository';
+import { StoreConfig } from 'src/store/store.config';
 
 //Decorator @Controller is used to wrap within this module so that Nest will know this is a Controller
 @Controller('users') // router: /users
 export class UsersController {
   // userService: UserService; //removed
+
   constructor(
     private readonly userService: UserService, // C1: (userService: UserService) is passed directly from Module's Provider --> already ready to use
     private readonly moduleRef: ModuleRef, // C2: all of providers from Module will be passed into this moduleRef
-    @Inject('KEY_B') private readonly userServiceB: UserServiceB // C3: Inject with key directly from here to use (compare to C2, no need declare variable to use like below).
+    @Inject('KEY_B') private readonly userServiceB: UserServiceB, // C3: Inject with key directly from here to use (compare to C2, no need declare variable to use like below).
+    @Inject('CONSTANT_CONFIG') private storeConfig: StoreConfig // Inject a useValue so that value can be passed directly into this Controller
   ) { 
     const userRepository = new UserRepository(); //Create an init userRepository variable (has value)
     this.userService = new UserService(userRepository); // contruct userService with constructor: userRepository --> userRepository in UserService can be valid and not error when touch it
@@ -36,10 +39,12 @@ export class UsersController {
       {
         name: 'giang',
         age: 18,
+        link: this.storeConfig.path + this.storeConfig.dir
       },
       {
         name: 'huy',
         age: 25,
+        link: this.storeConfig.path + this.storeConfig.dir
       },
     ];
   }

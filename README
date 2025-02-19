@@ -65,6 +65,10 @@
    + In UserModule, declare providers we gather all Providers (UserService, UserRepository, UserSeviceA, UserServiceB,...),  into 1 Provider.
    --> easy to use and import. Very useful for mock tesing, download Service from package outside and inject into our Module
 
+5. Dependency Injection (Module - useValue):
+   + We create an Interface: StoreConfig
+   + In UserModule, we add a value of storeConfig into Provider (useValue not useClass)
+   + In UserController, we can inject storeConfig from Module into Constructor, and read it data directly in the @Get Method
 
 
 How to run:
