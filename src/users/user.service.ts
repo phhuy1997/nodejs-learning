@@ -1,11 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { UserDTO } from 'src/user.dto';
 import { UserRepository } from './user.repository';
+import { StoreService } from 'src/store/store.service';
+// import { Inject } from '@nestjs/common';
+// import { StoreService } from 'src/store/store.service';
 
 export class UserService {
-  userRepository: UserRepository; // declare variable userRepository: belongs to class UserRepository --> it WILL BE a database representative
-  constructor(userRepository: UserRepository) { // userRepository = new UserRepository(); will be passed from caller (UserController) into this constructor
-    this.userRepository = userRepository; // --> Now Our variable: userRepository ALREADY be a database representative  --> We can query data from it
+  // userRepository: UserRepository;  // --> removed
+  constructor(
+    private readonly storeService: StoreService,
+    private readonly userRepository: UserRepository,
+  ) {
+      // this.userRepository = userRepository; // --> removed
   }
 
   createUser(user: UserDTO) {
@@ -18,7 +24,8 @@ export class UserService {
       this.userRepository.name = userReal.userName + userReal.id; 
     }
     // TO DO: userRepository.mutate(INSERT INTO User name = userReal.fullname ...)
-
+    this.storeService.save(userReal);
+    
     return {
       data: user,
       status: 200,

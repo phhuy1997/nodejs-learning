@@ -13,24 +13,29 @@ import {
 } from '@nestjs/common';
 import { UserDTO } from 'src/user.dto';
 import { UserService, UserServiceA, UserServiceB } from './user.service';
-import { ModuleRef } from '@nestjs/core';
 import { UserRepository } from './user.repository';
 import { StoreConfig } from 'src/store/store.config';
+import { StoreService } from 'src/store/store.service';
 
 //Decorator @Controller is used to wrap within this module so that Nest will know this is a Controller
 @Controller('users') // router: /users
 export class UsersController {
-  // userService: UserService; //removed
+  userService: UserService;
+  userServiceA: UserServiceA;
+  userServiceB: UserServiceB;
 
   constructor(
-    private readonly userService: UserService, // C1: (userService: UserService) is passed directly from Module's Provider --> already ready to use
-    private readonly moduleRef: ModuleRef, // C2: all of providers from Module will be passed into this moduleRef
-    @Inject('KEY_B') private readonly userServiceB: UserServiceB, // C3: Inject with key directly from here to use (compare to C2, no need declare variable to use like below).
+    @Inject('STORE_SERVICE') private storeService: StoreService, // Inject a useFactory so that factory can be passed directly into this Controller
+    // private readonly userService: UserService, // --> removed. Because UserService was now constructed by 2 elements (storeService & userRepository). But we dont want to init UserRepository in Module's Provider
+    // private readonly moduleRef: ModuleRef, // --> removed as above
+    // @Inject('KEY_B') private readonly userServiceB: UserServiceB, // --> removed as above
     @Inject('CONSTANT_CONFIG') private storeConfig: StoreConfig // Inject a useValue so that value can be passed directly into this Controller
   ) { 
     const userRepository = new UserRepository(); //Create an init userRepository variable (has value)
-    this.userService = new UserService(userRepository); // contruct userService with constructor: userRepository --> userRepository in UserService can be valid and not error when touch it
-  }
+    this.userService = new UserService(this.storeService, userRepository); // contruct userService with constructor: userRepository & storeSerivce --> userRepository in UserService can be valid and not error when touch it
+    this.userServiceB = new UserServiceB(this.storeService, userRepository); // same above
+    this.userServiceA = new UserServiceA(this.storeService, userRepository); // same above
+    }
 
   // Method GET
   @Get()
@@ -62,11 +67,10 @@ export class UsersController {
   
   @Post('a')
   createUserA(@Body() user: UserDTO) {
-    const userServiceA = this.moduleRef.get<UserServiceA>('KEY_A', {strict: false}); // get userServiceA (key_A) from moduleRef above
-    if (!userServiceA) {
+    if (!this.userServiceA) {
       throw new Error('UserServiceB is not available in moduleRef');
     }
-    return userServiceA.createUser(user);
+    return this.userServiceA.createUser(user);
   }
 
 

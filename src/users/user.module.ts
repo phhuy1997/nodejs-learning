@@ -2,6 +2,11 @@ import { Module } from '@nestjs/common';
 import { UsersController } from './user.controller';
 import { UserService, UserServiceA, UserServiceB } from './user.service';
 import { StoreConfig } from 'src/store/store.config';
+import { StoreService } from 'src/store/store.service';
+
+function createService(config?: StoreConfig): StoreService {
+  return new StoreService(config);
+}
 
 //Decorator @Module is used to wrap within this module so that we can have an instance of this App Module
 @Module({
@@ -24,6 +29,16 @@ import { StoreConfig } from 'src/store/store.config';
         dir: 'NestJs',
         path: '/myPC/Huy/NodeJs/',
       } as StoreConfig,
+    },
+    {
+      provide: 'STORE_SERVICE', //key
+      useFactory: createService,
+      inject: [
+        {
+          token: 'CONSTANT_CONFIG',
+          optional: true,
+        },
+      ],
     },
   ],
 })
