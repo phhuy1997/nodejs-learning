@@ -60,6 +60,13 @@
          - To inject UserRepository into UserService  --> UserService have enough ability to be init by constructor
       --> In UserController, we can use this.userService.createUser().
 
+5. Dependency Injection (Module - useClass):
+   + In UserController & UserRepository: Instead of declare userService, userRepository and inject seperately into constructor, we can passed them (ready to use directly) from Module outside.
+   + In UserModule, declare providers we gather all Providers (UserService, UserRepository, UserSeviceA, UserServiceB,...),  into 1 Provider.
+   --> easy to use and import. Very useful for mock tesing, download Service from package outside and inject into our Module
+
+
+
 How to run:
 C1: nest start (default)
 C2: npm run build (according to scripts)

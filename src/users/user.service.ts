@@ -14,6 +14,9 @@ export class UserService {
     const userReal = UserDTO.exposedInput(user);
     console.log('userReal :>> ', userReal); // only accepted input
 
+    if(this.userRepository){
+      this.userRepository.name = userReal.userName + userReal.id; 
+    }
     // TO DO: userRepository.mutate(INSERT INTO User name = userReal.fullname ...)
 
     return {
@@ -22,4 +25,10 @@ export class UserService {
       message: 'Create successfully',
     };
   }
+}
+
+export class UserServiceA extends UserService {  // Example for another Service
+}
+
+export class UserServiceB extends UserService {  // Example for another Service
 }
