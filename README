@@ -49,8 +49,16 @@
       In BaseDTO, we define a static method: exposedInput to return a result of plainToClass(...).
       --> In UserController, we don't need to plainToClass(...) anymore.
 
-
-
+5. Dependency Injection (Basic):
+   + Create UserRepository: 
+      # It is a class for database representative
+   + Create UserService: (with constructor(userRepository: UserRepository))
+      # It contain the complex action be used in UserController (Ex: createUser)
+   + In UserController:
+      We can use Dependency Injection: 
+         - To inject UserService into UserController
+         - To inject UserRepository into UserService  --> UserService have enough ability to be init by constructor
+      --> In UserController, we can use this.userService.createUser().
 
 How to run:
 C1: nest start (default)

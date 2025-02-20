@@ -10,10 +10,19 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserDTO } from 'src/user.dto';
+import { UserService } from './user.service';
+import { UserRepository } from './user.repository';
 
 //Decorator @Controller is used to wrap within this module so that Nest will know this is a Controller
 @Controller('users') // router: /users
 export class UsersController {
+  userService: UserService; // declare variable userService: belongs to class UserService
+
+  constructor() {
+    const userRepository = new UserRepository(); //Create an init userRepository variable (has value)
+    this.userService = new UserService(userRepository); //inject UserRepository into UserService  --> UserService have enough ability to be init by constructor, and can use all available method in UserServices (.CreateUser)
+  }
+
   // Method GET
   @Get()
   getAllUsers() {
@@ -33,19 +42,9 @@ export class UsersController {
   @UsePipes(new ValidationPipe())
   @Post()
   createUser(@Body() user: UserDTO) {
-    console.log('user: ', user); // raw input
-    // C1: Controller transformer
-    // const userReal = plainToClass(this, obj, { excludeExtraneousValues: true });  --> remove the fields that not be exposed in UserDTO
-
-    // C2: Global Transformer
-    const userReal = UserDTO.exposedInput(user);
-
-    console.log('userReal :>> ', userReal); // only accepted input
-    return {
-      data: user,
-      status: 200,
-      message: 'Create successfully',
-    };
+    // Moved logic to UserService
+    // --> return below
+    return this.userService.createUser(user);
   }
 
   //Method GET by Id (in path)
