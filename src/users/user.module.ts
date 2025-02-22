@@ -3,6 +3,7 @@ import { UsersController } from './user.controller';
 import { UserService, UserServiceA, UserServiceB } from './user.service';
 import { StoreConfig } from 'src/store/store.config';
 import { StoreService } from 'src/store/store.service';
+import { FacilityModule } from 'src/facility/facility.module';
 
 function createService(config?: StoreConfig): StoreService {
   return new StoreService(config);
@@ -10,6 +11,7 @@ function createService(config?: StoreConfig): StoreService {
 
 //Decorator @Module is used to wrap within this module so that we can have an instance of this App Module
 @Module({
+  imports: [FacilityModule], //import other Module into this Module --> Now we can inject all Providers from FacilityModule
   controllers: [UsersController],
   // Gather all Service into here --> In Controller, it will always be ready to used without injection seperately
   providers: [

@@ -2,6 +2,7 @@
 import { UserDTO } from 'src/user.dto';
 import { UserRepository } from './user.repository';
 import { StoreService } from 'src/store/store.service';
+import { FacilityService } from 'src/facility/facility.service';
 // import { Inject } from '@nestjs/common';
 // import { StoreService } from 'src/store/store.service';
 
@@ -10,6 +11,7 @@ export class UserService {
   constructor(
     private readonly storeService: StoreService,
     private readonly userRepository: UserRepository,
+    private readonly facilityService: FacilityService,
   ) {
       // this.userRepository = userRepository; // --> removed
   }
@@ -25,6 +27,7 @@ export class UserService {
     }
     // TO DO: userRepository.mutate(INSERT INTO User name = userReal.fullname ...)
     this.storeService.save(userReal);
+    this.facilityService.saveFacility(userReal);
     
     return {
       data: user,

@@ -16,6 +16,7 @@ import { UserService, UserServiceA, UserServiceB } from './user.service';
 import { UserRepository } from './user.repository';
 import { StoreConfig } from 'src/store/store.config';
 import { StoreService } from 'src/store/store.service';
+import { FacilityService } from 'src/facility/facility.service';
 
 //Decorator @Controller is used to wrap within this module so that Nest will know this is a Controller
 @Controller('users') // router: /users
@@ -25,6 +26,7 @@ export class UsersController {
   userServiceB: UserServiceB;
 
   constructor(
+    private facilityService: FacilityService, // Injected indirectly from FacilityModule
     @Inject('STORE_SERVICE') private storeService: StoreService, // Inject a useFactory so that factory can be passed directly into this Controller
     // private readonly userService: UserService, // --> removed. Because UserService was now constructed by 2 elements (storeService & userRepository). But we dont want to init UserRepository in Module's Provider
     // private readonly moduleRef: ModuleRef, // --> removed as above
@@ -32,9 +34,9 @@ export class UsersController {
     @Inject('CONSTANT_CONFIG') private storeConfig: StoreConfig // Inject a useValue so that value can be passed directly into this Controller
   ) { 
     const userRepository = new UserRepository(); //Create an init userRepository variable (has value)
-    this.userService = new UserService(this.storeService, userRepository); // contruct userService with constructor: userRepository & storeSerivce --> userRepository in UserService can be valid and not error when touch it
-    this.userServiceB = new UserServiceB(this.storeService, userRepository); // same above
-    this.userServiceA = new UserServiceA(this.storeService, userRepository); // same above
+    this.userService = new UserService(this.storeService, userRepository, this.facilityService); // use injected facilityService to constructed UserService
+    this.userServiceB = new UserServiceB(this.storeService, userRepository, this.facilityService); // same above
+    this.userServiceA = new UserServiceA(this.storeService, userRepository, this.facilityService); // same above
     }
 
   // Method GET

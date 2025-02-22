@@ -77,7 +77,14 @@
       - We add a Provider (useFactory) of storeService into Module
    --> With UseFactory, the Provider can adapt parameter for the function to return different result to be use for injection. (Compared to "useValue", the Injection value can not be dynamic.)
    
-   
+6. Import Module: (Static)
+   # A Parent Module can use instance of a Child Module  (FacilityModule import to UserModule)
+   + Create FacilityModule & declare Provider:[FacilityService].
+   + In UserModule: import FacilityModule into UserModule
+   + In UserController: we can inject FacilityService into UserModule (indirectly through importing FacilityModule before)
+
+
+
 
    
 
