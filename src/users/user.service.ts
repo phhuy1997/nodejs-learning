@@ -28,6 +28,7 @@ export class UserService {
     // TO DO: userRepository.mutate(INSERT INTO User name = userReal.fullname ...)
     this.storeService.save(userReal);
     this.facilityService.saveFacility(userReal);
+    this.facilityService.createHistory(userReal);
     
     return {
       data: user,

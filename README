@@ -83,6 +83,11 @@
    + In UserModule: import FacilityModule into UserModule
    + In UserController: we can inject FacilityService into UserModule (indirectly through importing FacilityModule before)
 
+6. Import Module (Static (t.t) - auto create file):
+   + We create an Interface: FacilityConfig
+   + In FacilityModule, we add 1 more Provider:[FacilityConfig]  (by useValue)
+   + In FacilityService, we can inject FacilityConfig into FacilityService to be used in function: createHistory()
+   --> In a Module, A Provider (like FacilityConfig) not only can be injected into a Controller, but it also be injected into another Provider (FacilityService). 
 
 
 
