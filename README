@@ -9,6 +9,18 @@
    --> package-lock.json will be automatically created: It declares all detail package that was installed
    (more details than package.json)
 
+3. Install apollo-server-express, graphql, nodemon, mongoose, 
+	+ npm i express apollo-server-express graphql nodemon 
+	+ install Extension: GraphQl (by Orsen Kucher)
+
+4. Start a Graphql through ApolloServer:
+   + Create schema.js: define <typeDefs> includes: type Book & type Query
+   + Create resolver.js: <resolver>
+   + In server.js: 
+      - Create a server through ApolloServer({typeDefs & resolver})
+      - Run that server on PORT 3000/graphql
+   
+   
 How to run:
 C1: node server.js (default)
 C2: npm run start (according to scripts)
