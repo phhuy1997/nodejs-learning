@@ -19,8 +19,15 @@
    + In server.js: 
       - Create a server through ApolloServer({typeDefs & resolver})
       - Run that server on PORT 3000/graphql
+
+5. Query - by Id:
+   + Move data the mockData.js for clearly manage.
+   + In schema.js, type Query: add query key&value for BookById.
+   + In resolver.js, add bookById for the expected returning data for that query (BookById).
+
    
    
 How to run:
 C1: node server.js (default)
 C2: npm run start (according to scripts)
+https://www.youtube.com/watch?v=AEptYkblFg8&list=PLKzNGvIJtUDZt5GlzARgHUVFaTzfQytJV&index=2

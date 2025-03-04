@@ -25,6 +25,15 @@ const typeDefs = gql`
                                                         #     }
                                                         #   }
     authors: [Author]
+    bookById (id: ID!): Book # --> At Client we can query like: 
+                                                        #   query MyFirstQuery {
+                                                        #     bookById (id: 2) {
+                                                        #       id
+                                                        #       name 
+                                                        #       genre
+                                                        #     }
+                                                        #   }
+    authorById (id: ID!): Author 
   }
 `
 export default typeDefs
