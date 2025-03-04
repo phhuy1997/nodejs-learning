@@ -8,6 +8,12 @@ const resolver = {
 		authors: () => mockData.authorsData,
 		bookById: (parent, args) => mockData.booksData.find(book => book.id.toString() === args.id.toString()),
 		authorById: (parent, args) => mockData.authorsData.find(author => author.id.toString() === args.id.toString()),
+	},
+	Book: { // resolve special fields for Book Schema
+		author: (parent, args) => { // map the "author" in schema   vs    "authorId" in mocked-booksData
+			console.log('parent: ', parent); // Is the books was query from Mocked-BooksData. -->  ex: {..., authorId: 2}
+			return mockData.authorsData.find((author) => author.id === parent.authorId)
+		}
 	}
 }
 

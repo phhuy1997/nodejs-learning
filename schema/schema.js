@@ -5,6 +5,8 @@ const typeDefs = gql`
     id: ID!
     name: String!
     genre: String!
+    author: Author  # we want to be responsed "author : Author". But in mocked booksData, it only has authorId: ID!  
+                    # --> In resolver.js, we need to declare a query for detail Books to link to the master Author. So that authorId can be map with Author
   }
 
   type Author {

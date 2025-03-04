@@ -25,6 +25,11 @@
    + In schema.js, type Query: add query key&value for BookById.
    + In resolver.js, add bookById for the expected returning data for that query (BookById).
 
+5. Query - by master-detail relationship:
+   + In mockData.js, add authorId for mocked-booksData
+   + In schema.js, add field {author: Author} for Book Schema
+   + In resolver.js, add Book resolver to map the "author" in schema   vs    "authorId" in mocked-booksData
+
    
    
 How to run:
