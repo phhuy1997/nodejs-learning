@@ -14,6 +14,23 @@ const resolver = {
 			console.log('parent: ', parent); // Is the books was query from Mocked-BooksData. -->  ex: {..., authorId: 2}
 			return mockData.authorsData.find((author) => author.id === parent.authorId)
 		}
+	},
+	Author: {
+		books: (parent, args) => {
+			return mockData.booksData.filter((book) => book.authorId === parent.Id);
+		}
+	},
+
+	// MUTATION:
+	Mutation: {
+		createAuthor: (parent, args) => {
+			// TODO: INSERT ... to db
+			return args
+		},
+		createBook: (parent, args) => {
+			// TODO: INSERT ... to db
+			return args
+		}
 	}
 }
 

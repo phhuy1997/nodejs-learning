@@ -17,17 +17,20 @@ const mockData = {
 		{
 			id: 4,
 			name: 'Ngo Tat To',
-			age: 127
+			age: 127,
+			// bookIds: [1]
 		},
 		{
 			id: 5,
 			name: 'Vu Trong Phung',
-			age: 109
+			age: 109,
+			// bookIds: [2]
 		},
 		{
 			id: 6,
 			name: 'Nam Cao',
-			age: 106
+			age: 106,
+			// bookIds: []
 		}
 	]
 }

@@ -13,6 +13,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     age: Int
+    books: [Book]
   }
 
   # ROOT TYPE
@@ -36,6 +37,15 @@ const typeDefs = gql`
                                                         #     }
                                                         #   }
     authorById (id: ID!): Author 
+  }
+
+
+  type Mutation {
+    createAuthor(id: ID, name: String, age: Int) : Author  # Create an author with the schema Author
+    createBook(id: ID, name: String, genre: String, authorId: ID): Book # Create a book with the Book Schema
+                                                                        # But in Book schema, it has author: Author instead of authorId: ID
+                                                                        # --> We need to map them in the resolver
+
   }
 `
 export default typeDefs

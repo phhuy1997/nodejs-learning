@@ -30,6 +30,8 @@
    + In schema.js, add field {author: Author} for Book Schema
    + In resolver.js, add Book resolver to map the "author" in schema   vs    "authorId" in mocked-booksData
 
+6. Mutation: 
+
    
    
 How to run:
