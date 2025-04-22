@@ -88,6 +88,32 @@
 
 
 
+3. Install apollo-server-express, graphql, nodemon, mongoose, 
+	+ npm i express apollo-server-express graphql nodemon 
+	+ install Extension: GraphQl (by Orsen Kucher)
+
+4. Start a Graphql through ApolloServer:
+   + Create schema.js: define <typeDefs> includes: type Book & type Query
+   + Create resolver.js: <resolver>
+   + In server.js: 
+      - Create a server through ApolloServer({typeDefs & resolver})
+      - Run that server on PORT 3000/graphql
+
+5. Query - by Id:
+   + Move data the mockData.js for clearly manage.
+   + In schema.js, type Query: add query key&value for BookById.
+   + In resolver.js, add bookById for the expected returning data for that query (BookById).
+
+5. Query - by master-detail relationship:
+   + In mockData.js, add authorId for mocked-booksData
+   + In schema.js, add field {author: Author} for Book Schema
+   + In resolver.js, add Book resolver to map the "author" in schema   vs    "authorId" in mocked-booksData
+
+6. Mutation: 
+
+   
+   
 How to run:
 C1: node server.js (default)
 C2: npm run start (according to scripts)
+https://www.youtube.com/watch?v=AEptYkblFg8&list=PLKzNGvIJtUDZt5GlzARgHUVFaTzfQytJV&index=2
