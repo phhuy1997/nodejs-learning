@@ -1,8 +1,11 @@
 // Define the structure for EventSF
 export const CharitySF = {
 	Id: '',
+	Code__c: '',
 	Image_Url__c: '',
 	Name: '',
+	Purpose__c: '',
+	Message__c: '',
 	Description__c: '',
 	Email__c: '',
 	Has_Connectted_Stripe__c: false,
@@ -15,6 +18,8 @@ export const CharityInternal = {
 	id: '',
   code: '',
   name: '',
+	purpose: '',
+	message: '',
   description: undefined,
   email: '',
   phoneNumber: '',
@@ -26,7 +31,10 @@ export const CharityInternal = {
 export const mappedCharity = {
 	Id: 'id',
 	Image_Url__c: 'imageUrl',
+	Code__c: 'code',
 	Name: 'name',
+	Purpose__c: 'purpose',
+	Message__c: 'message',
 	Description__c: 'description',
 	Email__c: 'email',
 	Has_Connectted_Stripe__c: 'isConnectedStripe',

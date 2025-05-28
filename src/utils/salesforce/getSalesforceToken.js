@@ -19,7 +19,6 @@ const getSalesforceToken = async () => {
       }),
       { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     );
-		console.log('response PHN :>> ', response);
     const accessToken = response.data.access_token;
     return accessToken;
   } catch (error) {

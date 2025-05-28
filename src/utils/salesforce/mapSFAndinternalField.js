@@ -19,3 +19,11 @@ export const mapSFAndInternalField = (records, mapping) => {
   });
 };
 
+export const mapInternalToSFField = (internalEvent, mapping) => {
+  const sfEvent = {};
+  for (const [sfKey, internalKey] of Object.entries(mapping)) {
+    sfEvent[sfKey] = internalEvent[internalKey] || null;
+  }
+  return sfEvent;
+};
+

@@ -2,7 +2,7 @@ import connection from "../config/database.js";
 
 import axios from 'axios'
 import getSalesforceToken from "../utils/salesforce/getSalesforceToken.js";
-import { mapSFAndInternalField } from "../utils/salesforce/mapSFAndinternalField.js";
+import { mapInternalToSFField, mapSFAndInternalField } from "../utils/salesforce/mapSFAndinternalField.js";
 import { mappedEvent } from "../interface/Event/index.js";
 import { mappedCharity } from "../interface/Charity/index.js";
 
@@ -24,12 +24,11 @@ export const getAllUsers = (req, res) => {
 export const getAllEvents = async (req, res) => {
 	try {
     const token = await getSalesforceToken();
-    // const token = "00D5i00000DWTNL!ARUAQCsbnXmekoItxqUJhEWBP0c7I3OqD6Irnf78lA9fXiGjyCw0gnBxW4yVQG_MLGretvpw8OwKjcvkaRCntAVpOcVPkgkU";
 
 		console.log('token :>> ', token);
 
     const response = await axios.get(
-			"https://datahouse-5d-dev-ed.develop.my.salesforce.com/services/data/v59.0/query",
+			`${process.env.BASE_SF_API_URL}/query`,
       {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -52,16 +51,101 @@ export const getAllEvents = async (req, res) => {
   }
 }
 
+
+
+export const addEvent = async (req, res) => {
+	try {
+		const token = await getSalesforceToken();
+		console.log('token :>> ', token);
+		
+		const eventData = req.body; // typeof EventInternal
+		// need to convert to typeof EventSF before sending
+		const { Id, ...eventDataSFWithoutId } = mapInternalToSFField(eventData, mappedEvent);
+		console.log('eventDataSFWithoutId :>> ', eventDataSFWithoutId);
+		
+		const payload = { 
+			...eventDataSFWithoutId, 
+			Distances__c: eventDataSFWithoutId.Distances__c ? JSON.stringify(eventDataSFWithoutId.Distances__c) : null,
+			Charity_Ids__c: eventDataSFWithoutId.Charity_Ids__c ? JSON.stringify(eventDataSFWithoutId.Charity_Ids__c) : null }
+		console.log('payload :>> ', payload);
+		console.log('${process.env.BASE_SF_INSTANCE_URL}/sobjects/Run_Event__c :>> ', `${process.env.BASE_SF_API_URL}/sobjects/Run_Event__c`);
+
+		const response = await axios.post(
+      `${process.env.BASE_SF_API_URL}/sobjects/Run_Event__c`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+		res.status(201).json({
+      message: 'Event created successfully',
+      id: response.data.id,
+    });
+  } catch (error) {
+    console.error('Error post to Salesforce:', error.response?.data || error.message);
+    throw new Error('Post to Salesforce failed');
+  }
+};
+
+
+export const updateEvent = async (req, res) => {
+  try {
+    const token = await getSalesforceToken();
+    console.log('token :>> ', token);
+		const { id } = req.params;
+
+    const eventData = req.body; // typeof EventInternal
+
+		const eventDataSF = mapInternalToSFField(eventData, mappedEvent)
+
+    if (!id) {
+      return res.status(400).json({ message: 'Missing Salesforce record Id for update' });
+    }
+
+    const payload = {
+      ...eventDataSF,
+      Distances__c: eventDataSF.Distances__c
+        ? JSON.stringify(eventDataSF.Distances__c)
+        : null,
+      Charity_Ids__c: eventDataSF.Charity_Ids__c
+        ? JSON.stringify(eventDataSF.Charity_Ids__c)
+        : null,
+    };
+
+		console.log('payload :>> ', payload);
+
+    const url = `${process.env.BASE_SF_API_URL}/sobjects/Run_Event__c/${id}`;
+    console.log('PATCH URL :>> ', url);
+
+    await axios.patch(url, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    res.status(200).json({
+      message: 'Event updated successfully',
+    });
+  } catch (error) {
+    console.error('Error updating Salesforce event:', error.response?.data || error.message);
+    res.status(500).json({ message: 'Update to Salesforce failed' });
+  }
+};
+
 export const getAllCharities = async (req, res) => {
 	try {
-    const token = await getSalesforceToken();
-    // const token = "00D5i00000DWTNL!ARUAQCsbnXmekoItxqUJhEWBP0c7I3OqD6Irnf78lA9fXiGjyCw0gnBxW4yVQG_MLGretvpw8OwKjcvkaRCntAVpOcVPkgkU";
+		const token = await getSalesforceToken();
 
 		console.log('token :>> ', token);
 
-    const response = await axios.get(
-			"https://datahouse-5d-dev-ed.develop.my.salesforce.com/services/data/v59.0/query",
-      {
+		const response = await axios.get(
+			`${process.env.BASE_SF_API_URL}/query`,
+			{
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -69,55 +153,96 @@ export const getAllCharities = async (req, res) => {
 					q: "SELECT FIELDS(ALL) FROM Charity__c LIMIT 100"
 				},
 			}
-    );
+		);
 
 		const mappedResponse = mapSFAndInternalField(
 			response.data.records,
 			mappedCharity
 		);
 
-    res.json(mappedResponse);
-  } catch (error) {
-    console.error('Error fetching events:', error.response?.data || error.message);
-    res.status(500).send('Failed to fetch events');
-  }
+		res.json(mappedResponse);
+	} catch (error) {
+		console.error('Error fetching events:', error.response?.data || error.message);
+		res.status(500).send('Failed to fetch events');
+	}
 }
-export const getAllDistances = async (req, res) => {
-	// TO DO: procress data, call Model, ...
+
+export const addCharity = async (req, res) => {
 	try {
-    // const token = await getSalesforceToken();
-    const token = "00D5i00000DWTNL!ARUAQHGHrUhgRHXEpixzJ8v1xSzBQPvLx.8CQHMVnzn276H2M7uS6EMOh_1w6F0l7lNx2MecvUcTL3xxftTNrWo294I37nZZ";
-
+		const token = await getSalesforceToken();
 		console.log('token :>> ', token);
+		
+		const charityData = req.body; // typeof CharityInternal
+		// need to convert to typeof CharitySF before sending
+		const { Id, Code__c, ...charityDataSFWithoutIdAndCode } = mapInternalToSFField(charityData, mappedCharity);
+		console.log('charityDataSFWithoutIdAndCode :>> ', charityDataSFWithoutIdAndCode);
+		
+		const payload = { 
+			...charityDataSFWithoutIdAndCode, 
+			Has_Connectted_Stripe__c: charityDataSFWithoutIdAndCode.Has_Connectted_Stripe__c ?? 'false',
+		 }
+		console.log('payload :>> ', payload);
 
-    const response = await axios.get(
-			"https://datahouse-5d-dev-ed.develop.my.salesforce.com/services/data/v59.0/query",
+		const response = await axios.post(
+      `${process.env.BASE_SF_API_URL}/sobjects/Charity__c`,
+      payload,
       {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-				params: {
-					q: "SELECT Id, Name FROM Distance__c"
-				},
-			}
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
-    res.json(response.data);
+		res.status(201).json({
+      message: 'Charity created successfully',
+      id: response.data.id,
+    });
   } catch (error) {
-    console.error('Error fetching distances:', error.response?.data || error.message);
-    res.status(500).send('Failed to fetch distances');
+    console.error('Error post to Salesforce:', error.response?.data || error.message);
+    throw new Error('Post to Salesforce failed');
   }
 };
 
+export const updateCharity = async (req, res) => {
+  try {
+    const token = await getSalesforceToken();
+    console.log('token :>> ', token);
+		const { id } = req.params;
 
+    const charityData = req.body; // typeof CharityInternal
+		
+		const charityDataSF = mapInternalToSFField(charityData, mappedCharity)
+		console.log('charityDataSF :>> ', charityDataSF);
 
+		const {Id, Code__c, ...charityDataSFWithoutId} = charityDataSF;
 
-// // GRAPHQL way:
-// export const getAllEvents = () => {
-//   return new Promise((resolve, reject) => {
-//     connection.query('SELECT * FROM Event', (err, results) => {
-//       if (err) reject(err);
-//       else resolve(results);
-//     });
-//   });
-// };
+    if (!id) {
+      return res.status(400).json({ message: 'Missing Salesforce record Id for update' });
+    }
+
+    const payload = {
+      ...charityDataSFWithoutId,
+			Has_Connectted_Stripe__c: charityDataSF.Has_Connectted_Stripe__c ? JSON.stringify(charityDataSF.Has_Connectted_Stripe__c) : 'false',
+    };
+
+		console.log('payload :>> ', payload);
+
+    const url = `${process.env.BASE_SF_API_URL}/sobjects/Charity__c/${id}`;
+    console.log('PATCH URL :>> ', url);
+
+    await axios.patch(url, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    res.status(200).json({
+      message: 'Event updated successfully',
+    });
+  } catch (error) {
+    console.error('Error updating Salesforce charity:', error.response?.data || error.message);
+    res.status(500).json({ message: 'Update to Salesforce failed' });
+  }
+};
